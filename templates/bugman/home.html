@@ -1,0 +1,51 @@
+{% load staticfiles %}
+{% load potatobar %}
+<!DOCTYPE html>
+<html ng-csp>
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title></title>
+        <link rel="stylesheet" href="{% static "css/materialize.min.css" %}">
+        <link rel="stylesheet" type="text/css" href="{% static "css/styles.css" %}" />
+        <link rel="icon" type="image/png" href="{% static "images/icon.png" %}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    </head>
+    <body ng-app="BugmanApp">
+        <div class="potatobar">{% potatobar %}</div>
+        <div class="container navbar" ng-controller="ProjectsController">
+            <ul id="projects-dropdown" class="dropdown-content">
+                <li ng-repeat="project in projects">
+                    <a href="/#/{$ project.id $}/">{$ project.name $}</a>
+                </li>
+            </ul>
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="" class="bugman-logo"><img src="{% static "images/bugtato-160.png" %}" /></a>
+                    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+                    <ul class="right hide-on-med-and-down">
+                        <li>
+                            <a class="dropdown-button" href="#!" data-activates="projects-dropdown">Projects <i class="mdi-navigation-arrow-drop-down right"></i></a>
+                        </li>
+                    </ul>
+                    <ul class="side-nav" id="mobile-demo">
+                        <li ng-repeat="project in projects">
+                            <a href="/#/{$ project.id $}/">{$ project.name $}</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+        </div>
+
+        <div ng-view class="container"></div>
+
+        <script src="{% static "js/jquery-2.1.1.min.js" %}"></script>
+        <script src="{% static "js/moment.js" %}"></script>
+        <script src="{% static "js/materialize.min.js" %}"></script>
+        <script src="{% static "js/angular.js" %}"></script>
+        <script src="{% static "js/ng-route.js" %}"></script>
+        <script src="{% static "js/bugman/app.js" %}"></script>
+        <script src="{% static "js/bugman/controllers.js" %}"></script>
+        <script src="{% static "js/bugman/services.js" %}"></script>
+    </body>
+</html>

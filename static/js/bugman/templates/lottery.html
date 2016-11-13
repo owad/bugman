@@ -1,0 +1,75 @@
+<div ng-show="project" class="center-align">
+    <h4>{$ project.name $} - {$ projectUsers.length $} potato<span ng-if="projectUsers.length != 1">es</span></h4>
+</div>
+
+<div ng-show="projectUsers.length > 0" class="center-align">
+    <p>
+        <span class="project-user" ng-repeat="user in projectUsers">
+            <input type="checkbox"
+                   id="{$ user.username $}-checkbox"
+                   value="{$ user.username $}"
+                   ng-click="updateCheckedUsers()"
+                   class="user-checkbox"
+                   checked="checked"
+            />
+            <label for="{$ user.username $}-checkbox">{$ user.fullname $}</label>
+        </span>
+    </p>
+
+    <a class="waves-effect waves-light btn roll-it-btn" ng-show="checkedUsers.length > 1" ng-click="startAll()">Go</a>
+</div>
+
+<h5 class="center-align" ng-show="project && projectUsers.length == 0">The project runs itself!</h5>
+<h5 class="center-align" ng-show="project && projectUsers.length == 1">One potato, one bugman!</h5>
+<p class="center-align" ng-show="!project">pick a project and roll the spuds!</p>
+
+<div ng-show="checkedUsers.length > 1">
+    <table class="responsive-table">
+        <thead>
+            <tr>
+                <th class="days {$ day $}" ng-repeat="day in days">{$ day | uppercase $}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="days {$ day $}" ng-repeat="day in days">
+                    <div class="day">
+                        <ul>
+                            <li data-id="{$ user.username $}" ng-repeat="user in projectUsers">{$ user.fullname $}</li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="week-results">
+    <h5 ng-show="project && weeklyResults.length > 0" class="center-align">Week {$ firstDay | date:"yyyy/MM/dd" $} - {$ lastDay | date:"yyyy/MM/dd" $}</h5>
+
+    <p class="center-align" ng-show="weeklyResults.length == 0">bugmans have been not selected for the current week yet</p>
+
+    <div ng-show="weeklyResults.length > 0">
+        <h6>Last result:</h6>
+        <ul class="collection">
+            <li class="collection-item" ng-repeat="result in weeklyResults" ng-show="$first">
+                Ran by: <b>{$ getFullname(result.ran_by) $}</b>
+                on {$ result.created | date:"EEEE" $} at {$ result.created | date:"mediumTime" $}<br/>
+                Partakers: <span ng-repeat="partaker in result.partakers"><b>{$ getFullname(partaker) $}</b><span ng-show="!$last">, </span></span><br>
+                Results: <span ng-repeat="day in days"><span class="first-capital">{$ day.substring(0, 3) $}</span> <b>{$ getFullname(result.result[$index]) $}</b><span ng-show="!$last">, </span></span>
+            </li>
+        </ul>
+    </div>
+
+    <div ng-show="weeklyResults.length > 1">
+        <h6>Previously run results:</h6>
+        <ul class="collection">
+            <li class="collection-item" ng-repeat="result in weeklyResults" ng-hide="$first">
+                Ran by: {$ getFullname(result.ran_by) $}
+                on {$ result.created | date:"EEEE" $} at {$ result.created | date:"mediumTime" $}<br/>
+                Partakers: <span ng-repeat="partaker in result.partakers">{$ getFullname(partaker) $}<span ng-show="!$last">, </span></span><br>
+                Results: <span ng-repeat="day in days"><span class="first-capital">{$ day.substring(0, 3) $}</span> {$ getFullname(result.result[$index]) $}<span ng-show="!$last">, </span></span>
+            </li>
+        </ul>
+    </div>
+</div>
